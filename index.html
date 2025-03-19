@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login PlantSense</title>
+    <link rel="icon" href="images.ico" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #2e8b57;
+            --primary-dark: #1e5a3a;
+            --accent-color: #f8f9fa;
+            --error-color: #dc3545;
+            --success-color: #28a745;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), 
+                       url('io.png') no-repeat center center/cover;
+            margin: 0;
+        }
+        
+        .login-container {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            width: 100%;
+            max-width: 420px;
+            box-sizing: border-box;
+            transition: transform 0.3s ease;
+            animation: fadeIn 0.8s ease-in;
+        }
+        
+        .login-container:hover {
+            transform: translateY(-5px);
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .logo {
+            margin-bottom: 20px;
+        }
+        
+        .logo-icon {
+            font-size: 52px;
+            color: var(--primary-color);
+            background: var(--accent-color);
+            width: 80px;
+            height: 80px;
+            line-height: 80px;
+            border-radius: 50%;
+            margin: 0 auto 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        h2 {
+            margin-bottom: 25px;
+            color: var(--primary-color);
+            font-size: 28px;
+            font-weight: 600;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        h2:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background-color: var(--primary-color);
+        }
+        
+        .input-group {
+            position: relative;
+            margin-bottom: 20px;
+        }
+        
+        .input-group i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #666;
+        }
+        
+        input {
+            width: 100%;
+            padding: 14px 14px 14px 45px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border 0.3s, box-shadow 0.3s;
+            background-color: #f8f9fa;
+        }
+        
+        input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(46, 139, 87, 0.2);
+        }
+        
+        input::placeholder {
+            color: #aaa;
+        }
+        
+        button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 14px 20px;
+            cursor: pointer;
+            border-radius: 8px;
+            font-size: 16px;
+            width: 100%;
+            transition: all 0.3s;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            margin-top: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        button:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        button:active {
+            transform: translateY(0);
+        }
+        
+        .forgot-password {
+            margin-top: 15px;
+            font-size: 14px;
+        }
+        
+        .forgot-password a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+        
+        .forgot-password a:hover {
+            text-decoration: underline;
+        }
+        
+        .error-message {
+            color: var(--error-color);
+            font-size: 14px;
+            margin-top: 5px;
+            text-align: left;
+            padding-left: 45px;
+            display: none;
+        }
+        
+        /* Media Queries */
+        @media (max-width: 768px) {
+            .login-container {
+                max-width: 90%;
+                padding: 30px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .login-container {
+                max-width: 95%;
+                padding: 25px;
+            }
+            
+            h2 {
+                font-size: 24px;
+            }
+            
+            .logo-icon {
+                font-size: 40px;
+                width: 70px;
+                height: 70px;
+                line-height: 70px;
+            }
+            
+            input, button {
+                font-size: 15px;
+                padding: 12px;
+            }
+            
+            input {
+                padding-left: 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="logo">
+            <div class="logo-icon"><i class="fas fa-leaf"></i></div>
+            <h2>SISTEMA DE RIEGO AUTOMATICO IOT</h2>
+        </div>
+        <form id="loginForm" onsubmit="return validarLogin()">
+            <div class="input-group">
+                <i class="fas fa-user"></i>
+                <input type="text" id="usuario" placeholder="Usuario" required>
+                <div class="error-message" id="usuario-error">Usuario no válido</div>
+            </div>
+            
+            <div class="input-group">
+                <i class="fas fa-lock"></i>
+                <input type="password" id="contrasena" placeholder="Contraseña" required>
+                <div class="error-message" id="contrasena-error">Contraseña incorrecta</div>
+            </div>
+            
+            <button type="submit">
+                <i class="fas fa-sign-in-alt"></i>
+                Iniciar Sesión
+            </button>
+            
+            <div class="forgot-password">
+                <a href="#">¿Olvidaste tu contraseña?</a>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        function validarLogin() {
+            var usuario = document.getElementById("usuario").value;
+            var contrasena = document.getElementById("contrasena").value;
+            var usuarioError = document.getElementById("usuario-error");
+            var contrasenaError = document.getElementById("contrasena-error");
+            
+            // Resetear mensajes de error
+            usuarioError.style.display = "none";
+            contrasenaError.style.display = "none";
+            
+            if (usuario === "Osiel" && contrasena === "osiel") {
+                // Animación de botón
+                document.querySelector("button").innerHTML = '<i class="fas fa-check"></i> Acceso Concedido';
+                document.querySelector("button").style.backgroundColor = "var(--success-color)";
+                
+                // Pequeño retraso antes de redireccionar
+                setTimeout(function() {
+                    window.location.href = "login.html";
+                }, 1000);
+                
+                return false;
+            } else {
+                if (usuario !== "admin") {
+                    usuarioError.style.display = "block";
+                }
+                if (contrasena !== "1234") {
+                    contrasenaError.style.display = "block";
+                }
+                
+                // Animar el formulario para indicar error
+                const form = document.getElementById("loginForm");
+                form.style.animation = "shake 0.5s";
+                setTimeout(() => {
+                    form.style.animation = "";
+                }, 500);
+                
+                return false;
+            }
+        }
+        
+        // Agregar animación de shake para errores
+        document.head.insertAdjacentHTML("beforeend", `
+            <style>
+                @keyframes shake {
+                    0%, 100% { transform: translateX(0); }
+                    10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+                    20%, 40%, 60%, 80% { transform: translateX(5px); }
+                }
+            </style>
+        `);
+    </script>
+</body>
+</html>
